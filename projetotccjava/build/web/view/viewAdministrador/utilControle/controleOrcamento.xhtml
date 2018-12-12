@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="../template-administrador.xhtml">
+            <ui:define name="content">
+                <br></br><br></br> 
+                <h:form>
+                    <p:commandButton value="Simular Orçamento" 
+                                     oncomplete="PF('dialogOrcamento').show()" 
+                                     update=":formTabela"/>
+                </h:form><br></br> 
+                
+                <h:form id="formTabela" style="text-align: center">
+                    <p:dataTable var="orcamento" value="#{orcamentoMB.listaOrcamento_totais}">
+                        <p:column headerText="ID" style=" width:05%">
+                            <h:outputText value="#{orcamento.id}"/>
+                        </p:column>
+                        <p:column headerText="Consumidor" style=" width:15%">
+                            <h:outputText value="#{orcamento.consumidor.nome}"/>
+                        </p:column>
+                        <p:column headerText="Prestador" style=" width:15%">
+                            <h:outputText value="#{orcamento.prestador.nome}"/>
+                        </p:column>
+                        <p:column headerText="Data de Execussão"  style=" width:10%">
+                            <h:outputText value="#{orcamento.dataExecucao}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Descrição">
+                            <h:outputText value="#{orcamento.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Preço R$" style=" width:10%">
+                            <h:outputText value="#{orcamento.preco}"/>
+                        </p:column>
+                        <p:column headerText="Ações" style=" width:20%">
+                            <p:commandButton value="Visualizar" 
+                                             oncomplete="PF('dialogOrcamento').show()" 
+                                             update=":formCadastro"
+                                             style="background: #d6f5ef"
+                                             icon="ui-icon-document">
+                                <f:setPropertyActionListener value="#{orcamento}" target="#{orcamentoMB.orcamento}"/>
+                            </p:commandButton>
+                            <p:commandButton value="Excluir" icon="ui-icon-trash" style="background: #ffdacc" update="@form" actionListener="#{orcamentoMB.recusar(orcamento.id)}">
+                                <p:confirm header="Confirmação" message="Deseja realmente excluir?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+
+                <p:growl autoUpdate="true"/>
+                <p:dialog id="dialogOrcamento" header="Simulação de Orcamento" widgetVar="dialogOrcamento" modal="true" height="550" width="600">
+                    <h:form id="formCadastro">
+                        <div style="width: min-content;">
+                            <p:panelGrid columns="1">
+                                <h:panelGrid columns="2" cellspacing="40px">
+                                    <p:column>
+                                        <h:panelGrid columns="1">
+                                            <h:outputText value="Consumidor:" />
+                                            <p:selectOneMenu 
+                                                id="consumidor" converter="converterConsumidor" value="#{orcamentoMB.orcamento.consumidor}" required = "true" requiredMessage="Escolha um consumidor" style="width: 95%">
+                                                
+                                                <f:selectItems value="#{consumidorMB.listaConsumidor}" 
+                                                               var ="consumidor"
+                                                               itemLabel="#{consumidor.nome}"
+                                                               itemValue="#{consumidor}"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGrid>
+                                    </p:column>
+                                    <p:column>
+                                        <h:panelGrid columns="1">
+                                            <h:outputText value="Prestador:" /> 
+                                            <p:selectOneMenu 
+                                                id="prestador" converter="converterPrestador" value="#{orcamentoMB.orcamento.prestador}" required = "true" requiredMessage="Escolha um prestador" style="width: 95%">
+                                                <f:selectItem itemLabel="Selecione"/>
+                                                <f:selectItems value="#{prestadorMB.listaPrestador}" 
+                                                               var ="prestador"
+                                                               itemLabel="#{prestador.nome}"
+                                                               itemValue="#{prestador}"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGrid>
+                                    </p:column>
+                                </h:panelGrid>                                         
+                                <p:column>
+                                    <h:panelGrid columns="1">
+                                        <h:outputText value="Preço:" /> <p:inputNumber value="#{orcamentoMB.orcamento.preco}" symbol=" R$" symbolPosition="s" decimalSeparator="," thousandSeparator="." requiredMessage="Campo Vazio" required = "true" size="50"/> 
+                                    </h:panelGrid>
+                                </p:column>
+                                <p:column>
+                                    <h:panelGrid columns="1">  
+                                        <h:outputText value="Descrição sobre o serviço:" />                                     
+                                        <p:inputTextarea value="#{orcamentoMB.orcamento.descricao}" requiredMessage="Campo Vazio" required = "true" rows="5" cols="52" counter="display" maxlength="250" counterTemplate="{0} characters remaining." autoResize="false" />
+                                        <h:outputText id="display" />
+                                    </h:panelGrid>  
+                                </p:column>
+                                <div align="center">
+                                    <p:column>
+                                        <h:panelGrid columns="2">
+                                            <p:column>
+                                                <h:panelGrid columns="1">
+                                                    <p:outputLabel for="mask1" value="Data da execução:" />
+                                                    <p:calendar id="mask1" value="#{orcamentoMB.orcamento.dataExecucao}" pattern="dd-MM-yyyy" mask="true" requiredMessage="Data vazia" required = "true"/>
+                                                </h:panelGrid>
+                                            </p:column>
+                                            <p:column>
+                                                <h:panelGrid columns="1">
+                                                    <p:outputLabel for="mask2" value="Data prazo Máximo:" />
+                                                    <p:calendar id="mask2" value="#{orcamentoMB.orcamento.dataExecucao}" pattern="dd-MM-yyyy" mask="true" requiredMessage="Data vazia" required = "true"/>
+                                                </h:panelGrid>
+                                            </p:column>
+                                        </h:panelGrid>  
+                                    </p:column>
+                                </div>
+                            </p:panelGrid><br/><br/>
+                            <p:commandButton value="Inserir" 
+                                             actionListener="#{orcamentoMB.inserir()}"
+                                             oncomplete="handleComplete(xhr, status, args)"
+                                             update=":formTabela"
+                                             style="width: 100%"/><br/>
+                        </div>
+                    </h:form>
+                </p:dialog>
+                <script type="text/javascript">
+                    function handleComplete(xhr, status, args) {
+                        if (!args.validationFailed) {
+                            PF('dialogOrcamento').hide();
+                        } else {
+                        }
+                    }
+                </script>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

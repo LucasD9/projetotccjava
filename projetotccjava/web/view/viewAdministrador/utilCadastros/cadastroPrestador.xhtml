@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="../template-administrador.xhtml">
+            <ui:define name="content">
+                <br></br><br></br> 
+                <h:form>
+                    <p:commandButton value="Cadastrar Prestador" 
+                                     resetValues="true"
+                                     oncomplete="PF('dialogPrestador').show()" 
+                                     update=":formCadastro"
+                                     actionListener="#{prestadorMB.atualizarCadastro()}"/>
+                </h:form><br></br> 
+                <h:form id="formTabela" style="text-align: center">
+                    <p:dataTable var="prestador" value="#{prestadorMB.listaPrestador}">
+                        <p:column headerText="Nome">
+                            <h:outputText value="#{prestador.nome}"/>
+                        </p:column>
+                        <p:column headerText="Cidade">
+                            <h:outputText value="#{prestador.cidade.nome}"/>
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <h:outputText value="#{prestador.cidade.estado.nome}"/>
+                        </p:column>
+                        <p:column headerText="Categoria">
+                            <h:outputText value="#{prestador.categoria.nome}"/>
+                        </p:column>
+                        <p:column headerText="Ações">
+                            <p:commandButton value="Alterar" 
+                                             oncomplete="PF('dialogPrestador').show()" 
+                                             update=":formCadastro"
+                                             style="background: #d6f5ef"
+                                             icon="ui-icon-document">
+                                <f:setPropertyActionListener value="#{prestador}" target="#{prestadorMB.prestador}"/>
+                            </p:commandButton>
+                            <p:commandButton value="Excluir" icon="ui-icon-trash" style="background: #ffdacc" update="@form" actionListener="#{prestadorMB.remover(prestador.id)}">
+                                <p:confirm header="Confirmação" message="Deseja realmente excluir?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+
+                <p:growl autoUpdate="true"/>
+                <p:dialog id="dialogPrestador" header="Cadastro de Prestador" widgetVar="dialogPrestador" modal="true" height="600" width="650">
+                    <h:form id="formCadastro">
+
+                        <div style="width: min-content;">
+                            <p:panelGrid columns="1">
+                                <p:column>
+                                    <h:panelGrid columns="1">  
+                                        <h:outputText value="Nome:" /> <p:inputText  value="#{prestadorMB.prestador.nome}" required = "true" placeholder="Digite o nome" size="50"/>  
+                                        <h:outputText value="CPF:" /> <p:inputMask  value="#{prestadorMB.prestador.cpf}" mask="999.999.999-99" maxlength = "11"  requiredMessage="Campo Vazio" required = "true" size="50"/>                                        
+                                    </h:panelGrid>  
+                                </p:column>
+                                <p:column>
+                                    <h:panelGrid columns="1"> 
+                                        <h:outputText value="Bairro:" /> <p:inputText  value="#{prestadorMB.prestador.bairro}" requiredMessage="Campo Vazio" required = "true" size="50"/>  
+                                        <h:outputText value="Rua:" /> <p:inputText  value="#{prestadorMB.prestador.rua}" size="50"/>  
+                                        <h:outputText value="Número:" /> <p:inputText  value="#{prestadorMB.prestador.numCasa}" size="50"/>                                                            
+                                        <h:outputText value="Estado:"/>
+                                        <p:selectOneMenu id="estado" converter="converterEstado" value="#{filtroCidade.estado}" requiredMessage="Escolha um estado" required = "true">
+                                            <f:selectItem itemLabel="Selecione"/>
+                                            <f:selectItems value="#{estadoMB.listaEstado}" 
+                                                           var ="estado"
+                                                           itemLabel="#{estado.nome}"
+                                                           itemValue="#{estado}"/>
+
+                                            <p:ajax update="cidade" event="change" listener="#{filtroCidade.filtroCidade}"/>
+                                        </p:selectOneMenu>
+                                        <h:outputText value="Cidade:"/>
+                                        <p:selectOneMenu 
+                                            id="cidade" converter="converterCidade" value="#{prestadorMB.prestador.cidade}" required = "true" requiredMessage="Escolha uma cidade" style="width: 83%">
+                                            <f:selectItem itemLabel="Selecione"/>
+                                            <f:selectItems value="#{filtroCidade.listaCidade}" 
+                                                           var ="cidade"
+                                                           itemLabel="#{cidade.nome}"
+                                                           itemValue="#{cidade}"/>
+                                        </p:selectOneMenu>
+                                        <h:outputText value="CEP:" /> <p:inputText  value="#{prestadorMB.prestador.cep}" maxlength="8" required = "true" size="50"/>
+                                    </h:panelGrid>
+                                </p:column>
+                            </p:panelGrid><br/>                        
+                            <p:panelGrid columns="1">
+                                <p:column>
+                                    <h:panelGrid columns="1">  
+                                        <h:outputText value="Razão Social (Caso tenha):" /> <p:inputText value="#{prestadorMB.prestador.razaoSocial}" requiredMessage="Campo Vazio" required = "true" size="50"/>   
+                                    </h:panelGrid>  
+                                </p:column>
+                                <p:column>
+                                    <h:panelGrid columns="2">
+                                        <p:column>
+                                            <h:panelGrid columns="1">
+                                                <h:outputText value="CNPJ:" /> <p:inputMask value="#{prestadorMB.prestador.cnpj}" mask="99.999.999/9999-99"  maxlength="14" requiredMessage="Campo Vazio" required = "true" size="20"/>
+                                            </h:panelGrid>
+                                        </p:column>
+                                        <p:column>
+                                            <h:panelGrid columns="1">
+                                                <h:outputText value="Inscrição Estadual:" /> <p:inputText value="#{prestadorMB.prestador.ie}" requiredMessage="Campo Vazio" required = "true" size="20"/>
+                                            </h:panelGrid>
+                                        </p:column>
+                                    </h:panelGrid>  
+                                </p:column>
+                            </p:panelGrid><br/>
+                            <p:panelGrid columns="1">
+                                <p:column>
+                                    <h:panelGrid columns="1">  
+                                        <h:outputText value="Área de atuação:"   />
+                                        <p:selectOneMenu id="categoria" converter="converterCategoria" value="#{prestadorMB.prestador.categoria}" requiredMessage="Escolha uma categoria" required = "true" style="width: 100%">
+                                            <f:selectItem itemLabel="Selecione"/>
+                                            <f:selectItems value="#{categoriaMB.listaCategoria}" 
+                                                           var ="categoria"
+                                                           itemLabel="#{categoria.nome}"
+                                                           itemValue="#{categoria}"/>
+                                            <f:ajax render="categoria" event="change" listener="#{categoriaMB.listaCategoria}"/>
+                                        </p:selectOneMenu>
+                                    </h:panelGrid>  
+                                </p:column>
+                                <p:column>
+                                    <h:panelGrid columns="1">  
+                                        <h:outputText value="Formação profissional:" /> <p:inputText value="#{prestadorMB.prestador.formacaoProfissional}" requiredMessage="Campo Vazio" required = "true" size="50"/>   
+                                    </h:panelGrid>
+                                </p:column>                           
+                            </p:panelGrid><br/>
+                            <p:panelGrid columns="1">
+                                <p:column>
+                                    <h:panelGrid columns="1">  
+                                        <h:outputText value="Fone principal:"/> <p:inputMask value="#{prestadorMB.prestador.fonePrincipal}" id="fone1" mask="(99)99999-9999" requiredMessage="Campo Vazio" required = "true" size="50"/>   
+                                    </h:panelGrid>  
+                                </p:column>
+                                <p:column>
+                                    <h:panelGrid columns="1">  
+                                        <h:outputText value="Fone alternativo:"/> <p:inputMask value="#{prestadorMB.prestador.foneAlternativo}" id="fone2" mask="(99)99999-9999" requiredMessage="Campo Vazio" required = "true" size="50"/>   
+                                    </h:panelGrid>
+                                </p:column>
+                                <p:column>
+                                    <h:panelGrid columns="1">  
+                                        <h:outputText value="Fone whatsapp:"/> <p:inputMask value="#{prestadorMB.prestador.foneWhatsapp}" id="fone3" mask="(99)99999-9999" requiredMessage="Campo Vazio" required = "true" size="50"/>  
+                                    </h:panelGrid>
+                                </p:column>
+                            </p:panelGrid><br/>
+                            <p:panelGrid columns="1">
+                                <p:column>
+                                    <h:panelGrid columns="1">  
+                                        <h:outputText value="E-mail:" /> <p:inputText value="#{prestadorMB.prestador.email}"  required = "true" size="50"/>   
+                                    </h:panelGrid>  
+                                </p:column>
+                                <p:column>
+                                    <h:panelGrid columns="2">
+                                        <p:column>
+                                            <h:panelGrid columns="1">
+                                                <h:outputText value="Senha:" /> 
+                                                <p:password requiredMessage="Campo Vazio" 
+                                                            required = "true"
+                                                            size="20"/> 
+                                            </h:panelGrid>
+                                        </p:column>
+                                        <p:column>
+                                            <h:panelGrid columns="1">
+                                                <h:outputText value="Repita a senha:" />
+                                                <p:password value="#{prestadorMB.prestador.senha}" 
+                                                            requiredMessage="Campo Vazio" 
+                                                            required = "true"
+                                                            size="20"/>  
+                                            </h:panelGrid>
+                                        </p:column>
+                                    </h:panelGrid>  
+                                </p:column>
+                            </p:panelGrid><br/>
+                            <p:panelGrid columns="1">
+                                <p:column>
+                                    <h:panelGrid columns="1">  
+                                        <h:outputText value="Link Facebook:" /> <p:inputText  value="#{prestadorMB.prestador.linkFacebook}" requiredMessage="Campo Vazio" required = "true"  size="50"/>   
+                                    </h:panelGrid>  
+                                </p:column>
+                                <p:column>
+                                    <h:panelGrid columns="1">  
+                                        <h:outputText value="Link Linkedin" /> <p:inputText  value="#{prestadorMB.prestador.linkLinkedin}" requiredMessage="Campo Vazio" required = "true"  size="50"/>   
+                                    </h:panelGrid>
+                                </p:column>
+                                <p:column>
+                                    <h:panelGrid columns="1">  
+                                        <h:outputText value="Link Website:" /> <p:inputText  value="#{prestadorMB.prestador.linkWebsite}" requiredMessage="Campo Vazio" required = "true"  size="50"/>  
+                                    </h:panelGrid>
+                                </p:column>
+                            </p:panelGrid><br></br>
+                            <p:panelGrid columns="1">
+                                <p:column>
+                                    <h:panelGrid columns="1">  
+                                        <h:outputText value="Breve descrição sobre vc:" />                                     
+                                        <p:inputTextarea value="#{prestadorMB.prestador.descricao}" requiredMessage="Campo Vazio" required = "true" rows="5" cols="52" counter="display" maxlength="250" counterTemplate="{0} characters remaining." autoResize="false" />
+                                        <h:outputText id="display" />
+                                    </h:panelGrid>  
+                                </p:column>
+                            </p:panelGrid><br/>
+
+                            <p:commandButton value="Inserir" 
+                                             actionListener="#{prestadorMB.inserir()}"
+                                             oncomplete="handleComplete(xhr, status, args)"
+                                             update=":formTabela"
+                                             style="width: 100%"/>
+                        </div>
+                        <br/><br/>
+                    </h:form><br/><br/>
+                </p:dialog>
+                <script type="text/javascript">
+                    function handleComplete(xhr, status, args) {
+                        if (!args.validationFailed) {
+                            PF('dialogPrestador').hide();
+                        } else {
+                        }
+                    }
+                </script>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

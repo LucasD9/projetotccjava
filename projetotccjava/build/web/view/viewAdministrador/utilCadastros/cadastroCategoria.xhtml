@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="../template-administrador.xhtml">
+            <ui:define name="content">
+                <br></br><br></br> 
+                <h:form>
+                    <p:commandButton value="Cadastrar Categoria" 
+                                     oncomplete="PF('dialogCategoria').show()" 
+                                     update=":formCadastro"/>
+                </h:form><br></br> 
+                <h:form id="formTabela" style="text-align: center">
+                    <p:dataTable var="categoria" value="#{categoriaMB.listaCategoria}">
+                        <p:column headerText="Nome">
+                            <h:outputText value="#{categoria.nome}"/>
+                        </p:column>
+                        <p:column headerText="Descrição">
+                            <h:outputText value="#{categoria.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Ações">
+                            <p:commandButton value="Alterar" 
+                                             oncomplete="PF('dialogCategoria').show()" 
+                                             update=":formCadastro"
+                                             style="background: #d6f5ef"
+                                             icon="ui-icon-document">
+                                <f:setPropertyActionListener value="#{categoria}" target="#{categoriaMB.categoria}"/>
+                            </p:commandButton>
+                            <p:commandButton value="Excluir" icon="ui-icon-trash" style="background: #ffdacc" update="@form" actionListener="#{categoriaMB.remover(categoria.id)}">
+                                <p:confirm header="Confirmação" message="Deseja realmente excluir?" icon="ui-icon-alert" />
+                            </p:commandButton>
+
+                        </p:column>
+                    </p:dataTable>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+
+                <p:growl autoUpdate="true"/>
+                <p:dialog id="dialogCategoria" header="Cadastro Categoria" widgetVar="dialogCategoria" modal="true" height="160" width="400">
+                    <h:form id="formCadastro">                      
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Nome:"/>
+                            <p:inputText value="#{categoriaMB.categoria.nome}" requiredMessage="Campo Vazio" required = "true"/>
+                            <h:outputText value="Descrição: "/>
+                            <p:inputText value="#{categoriaMB.categoria.descricao}" requiredMessage="Campo Vazio" required = "true"/>                           
+                        </h:panelGrid> <br/>
+                        <p:commandButton value="Inserir" 
+                                         actionListener="#{categoriaMB.inserir()}"
+                                         oncomplete="handleComplete(xhr, status, args)"
+                                         update=":formTabela"
+                                         style="width: 85%"/><br/>
+                    </h:form>
+                </p:dialog> 
+                <script type="text/javascript">
+                    function handleComplete(xhr, status, args) {
+                        if (!args.validationFailed) {
+                            PF('dialogCategoria').hide();
+                        } else {
+                        }
+                    }
+                </script>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

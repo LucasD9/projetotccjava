@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <h:outputStylesheet library="css" name="cssComponentes.css"/>
+        <h:outputStylesheet library="css" name="cssCorpo.css"/>
+        <h:outputStylesheet library="css" name="cssPadrao.css"/>
+    </h:head>    
+    <h:body style="background-color: #019487;">
+
+        <h:outputText value="E-mail ou senha incorretos"
+                      rendered="#{param.error==true}" />
+
+        <div align="center" style="background-color: white; border-radius: 15px; border-style: solid; padding: 30px; width: min-content; margin: auto; margin-top: 10%;">
+            <form action="j_spring_security_check" method="post">
+                <center>
+                    <h:outputText value="Usuário ou senha incorretos!" rendered="#{param.erro}" style="color: darkred"/>
+                </center><br/>
+                <p:panelGrid columns="1">
+                    <p:column>
+                        <h:panelGrid columns="1" cellpadding="4">  
+                            <h:outputLabel for="j_username" value="E-mail: *"/><h:inputText id="j_username" required="true" size="25"/> 
+                            <h:outputLabel for="j_password" value="Senha: *"/><h:inputSecret id="j_password" required="true" size="25"/>
+                        </h:panelGrid><br/>
+                    </p:column>
+                    <p:column>
+                        <br/>
+                        <h:commandButton  style="width: 100%" value="Entrar" /><br/><br/>
+                        <div align="right"><a href="https://www.w3schools.com">Esqueceu a senha?</a></div>
+                    </p:column>
+                </p:panelGrid>
+            </form>
+
+        </div>           
+
+    </h:body>
+</html>

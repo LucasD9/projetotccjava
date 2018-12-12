@@ -1,0 +1,36 @@
+-- INSERT INTO estado (id, nome, sigla) VALUES (1, 'Paraná', 'PR');
+-- INSERT INTO estado (id, nome, sigla) VALUES (2, 'São Paulo', 'SP');
+-- 
+-- INSERT INTO cidade (id, nome, estado_id) VALUES (3, 'Paranavaí', 1);
+-- INSERT INTO cidade (id, nome, estado_id) VALUES (4, 'Maringá', 1);
+-- INSERT INTO cidade (id, nome, estado_id) VALUES (5, 'Bauru', 2);
+-- INSERT INTO cidade (id, nome, estado_id) VALUES (6, 'Campinas', 2);
+-- 
+-- INSERT INTO categoria (id, nome, descricao) VALUES (7, 'Encanador', 'Reparos em encanamentos em geral');
+-- INSERT INTO categoria (id, nome, descricao) VALUES (8, 'Eletrecista', 'Reparos em fiações em geral');
+-- INSERT INTO categoria (id, nome, descricao) VALUES (9, 'Fretista', 'Transportador de cargas domésticas');
+-- INSERT INTO categoria (id, nome, descricao) VALUES (10, 'Jardineiro', 'Cuidados e limpezas de quintais');
+-- INSERT INTO categoria (id, nome, descricao) VALUES (11, 'Técnico em T.I.', 'Assistência técnica de computadores');
+-- 
+-- INSERT INTO consumidor (id, nome, cpf, bairro, rua, numcasa, cidade_id, cep, fonewhatsapp, email, senha, status, perfil)
+--     VALUES (12, 'João', '68330447081', 'Centro', 'Augusta', 234, 3, '87701030', '4498665544', 'joao@gmail.com', 'senha123', '1', 'CONSUMIDOR');
+-- INSERT INTO consumidor (id, nome, cpf, bairro, rua, numcasa, cidade_id, cep, fonewhatsapp, email, senha, status, perfil)
+--     VALUES (13, 'Maria', '28732578067', 'Zona 7', 'Ozório', 432, 4, '87020900', '4498662233', 'maria@gmail.com', 'senha123', '1', 'CONSUMIDOR');
+-- 
+-- INSERT INTO prestador (id, nome, cpf, bairro, rua, numcasa, cidade_id, cep, razaosocial, cnpj, ie, categoria_id, status, perfil, formacaoprofissional, foneprincipal, fonealternativo, fonewhatsapp,  email, senha, linkfacebook, linklinkedin, linkwebsite, descricao)
+--     VALUES (15, 'Rogério', '07892173099', 'Jardim Planalto', 'Zemana', 324, 3, '87020900', 'Encanamentos LTDA', '50677734000188', '9707902849', 7, '1', 'PRESTADOR', 'Formado em administração', '44997696548', '44997696548', '44997696548', 'encanamentos.ltda@gmail.com', 'senha123', 'facebook.com.br', 'linlkedn.com.br', 'encanamentos.com.br', 'Efetuo reparos e concertos em encanamento');
+-- INSERT INTO prestador (id, nome, cpf, bairro, rua, numcasa, cidade_id, cep, razaosocial, cnpj, ie, categoria_id, status, perfil, formacaoprofissional, foneprincipal, fonealternativo, fonewhatsapp,  email, senha, linkfacebook, linklinkedin, linkwebsite, descricao)
+--     VALUES (16, 'Carlos', '06574605083', 'Centro', 'Avenida Lima', 547, 3, '87020900', 'Sobrinho Informática', '18234514000177', '2796188904', 11, '1', 'PRESTADOR', 'Formado em análise de sistemas', '44995568786', '44995568786', '44995568786', 'sobrinho.sistemas@gmail.com', 'senha123', 'facebook.com.br', 'linlkedn.com.br', 'encanamentos.com.br', 'Faço manutensão em computadores');
+-- INSERT INTO prestador (id, nome, cpf, bairro, rua, numcasa, cidade_id, cep, razaosocial, cnpj, ie, categoria_id, status, perfil, formacaoprofissional, foneprincipal, fonealternativo, fonewhatsapp,  email, senha, linkfacebook, linklinkedin, linkwebsite, descricao)
+--     VALUES (17, 'Luiz', '07892173099', 'Jardim Planalto', 'Zemana', 324, 3, '87020900', 'Eletrecista LTDA', '50677734000188', '9707902849', 8, '1', 'PRESTADOR', 'Formado em engenharia elétrica', '44997696548', '44997696548', '44997696548', 'eletrecista.ltda@gmail.com', 'senha123', 'facebook.com.br', 'linlkedn.com.br', 'encanamentos.com.br', 'Efetuo manutrenção em parte elétrica');
+-- INSERT INTO prestador (id, nome, cpf, bairro, rua, numcasa, cidade_id, cep, razaosocial, cnpj, ie, categoria_id, status, perfil, formacaoprofissional, foneprincipal, fonealternativo, fonewhatsapp,  email, senha, linkfacebook, linklinkedin, linkwebsite, descricao)
+--     VALUES (18, 'José', '06574605083', 'Centro', 'Avenida Lima', 547, 3, '87020900', 'Fretes LTDA', '18234514000177', '2796188904', 9, '1', 'PRESTADOR', 'Formado em turismo', '44995568786', '44995568786', '44995568786', 'fretes@gmail.com', 'senha123', 'facebook.com.br', 'linlkedn.com.br', 'encanamentos.com.br', 'Faço mudanças e fretes');
+-- 
+-- 
+-- 
+-- INSERT INTO prestador (id, nome, cpf, bairro, rua, numcasa, cidade_id, cep, razaosocial, cnpj, ie, categoria_id, status, perfil, formacaoprofissional, foneprincipal, fonealternativo, fonewhatsapp,  email, senha, linkfacebook, linklinkedin, linkwebsite, descricao)
+--     VALUES (19, 'Prestador', '07892173099', 'Jardim Planalto', 'Zemana', 324, 3, '87020900', 'Teste LTDA', '50677734000188', '9707902849', 7, '1', 'PRESTADOR', 'Teste', '44997696548', '44997696548', '44997696548', 'prestador@gmail.com', 'senha123', 'facebook.com.br', 'linlkedn.com.br', 'encanamentos.com.br', 'Efetuo reparos e concertos em encanamento');
+-- INSERT INTO consumidor (id, nome, cpf, bairro, rua, numcasa, cidade_id, cep, fonewhatsapp, email, senha, status, perfil)
+--     VALUES (20, 'Consumidor', '68330447081', 'Centro', 'Augusta', 234, 3, '87701030', '4498665544', 'consumidor@gmail.com', 'senha123', '1', 'CONSUMIDOR');
+-- INSERT INTO prestador (id, nome, cpf, bairro, rua, numcasa, cidade_id, cep, email, senha, status, perfil)
+--     VALUES (21, 'Admin', '68330447081', 'Centro', 'Augusta', 234, 3, '87701030', 'admin@gmail.com', 'senha123', '1', 'ADMINISTRADOR');

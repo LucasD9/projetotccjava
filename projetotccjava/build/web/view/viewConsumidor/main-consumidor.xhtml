@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>CONSUMIDOR</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="template-consumidor.xhtml">
+            <ui:define name="content">
+                <p:growl autoUpdate="true"/>
+                <br/><br/>
+                <div id="formResultado" style="background-color: #f8f8f8; border-radius: 20px;">
+                    <div style="background-color: white; border-radius: 15px; width: -moz-max-content; border-style: solid">
+                        <h:form>
+                            <p:panelGrid columns="2">                            
+                                <p:column>
+                                    <h:panelGrid columns="3" cellspacing="20px" style="padding: 2px 50px;">
+                                        <p:column>
+                                            <h:panelGrid columns="1">
+                                                <h:outputText value="Categoria:" />
+                                                <p:selectOneMenu id="categoria" converter="converterCategoria" value="#{consultaPrestadores.categoria}" requiredMessage="Escolha uma categoria" required = "true">
+                                                    <f:selectItem itemLabel="Selecione"/>
+                                                    <f:selectItems value="#{categoriaMB.listaCategoria}" 
+                                                                   var ="categoria"
+                                                                   itemLabel="#{categoria.nome}"
+                                                                   itemValue="#{categoria}"/>
+                                                </p:selectOneMenu>  
+                                            </h:panelGrid>
+                                        </p:column>
+                                        <p:column>
+                                            <h:panelGrid columns="1">
+                                                <h:outputText value="Estado:" />
+                                                <p:selectOneMenu id="estado" converter="converterEstado" value="#{filtroCidade.estado}" requiredMessage="Escolha um estado" required = "true">
+                                                    <f:selectItem itemLabel="Selecione"/>
+                                                    <f:selectItems value="#{estadoMB.listaEstado}" 
+                                                                   var ="estado"
+                                                                   itemLabel="#{estado.nome}"
+                                                                   itemValue="#{estado}"/>
+
+                                                    <p:ajax update="cidade" event="change" listener="#{filtroCidade.filtroCidade}"/>
+                                                </p:selectOneMenu>
+                                            </h:panelGrid>
+                                        </p:column>
+                                        <p:column>
+                                            <h:panelGrid columns="1">
+                                                <h:outputText value="Cidade:" />
+                                                <p:selectOneMenu 
+                                                    id="cidade" converter="converterCidade" value="#{consultaPrestadores.cidade}" required = "true" requiredMessage="Escolha uma cidade" style="width: 83%">
+                                                    <f:selectItem itemLabel="Selecione"/>
+                                                    <f:selectItems value="#{cidadeMB.listaCidade}" 
+                                                                   var ="cidade"
+                                                                   itemLabel="#{cidade.nome}"
+                                                                   itemValue="#{cidade}"/>
+                                                </p:selectOneMenu>
+                                            </h:panelGrid>
+                                        </p:column>  
+                                    </h:panelGrid>  
+                                </p:column>
+                                <p:column style="padding: 2px 50px;">
+                                    <br/>
+                                    <p:commandButton value="Buscar" 
+                                                     actionListener="#{consultaPrestadores.consultarPrestadores()}"
+                                                     update=":formGrid"
+                                                     oncomplete="handleComplete(xhr, status, args)"
+                                                     style="width: 100%"/><br/>  
+                                </p:column>
+                            </p:panelGrid>
+                        </h:form>
+                    </div>
+                    <br/><br/>
+                    <hr/>
+                    <br/><br/>
+                    <h:form id="formGrid">
+                        <p:dataGrid var="prestador" value="#{consultaPrestadores.listaPrestador}" columns="3" layout="grid"
+                                    rows="12" paginator="true" id="cars"
+                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                    rowsPerPageTemplate="6,12,16">                   
+
+                            <p:panel header="#{prestador.razaoSocial}" style="text-align:center">
+                                <h:panelGrid columns="1" style="width:100%">
+                                    <img src="resources/imagens/jobers.png" alt=""/>
+
+                                    <h:outputText value="#{prestador.nome}" /><br/>
+
+                                    <p:commandLink update=":formGrid:PrestadorDetail" oncomplete="PF('DialogGrid').show()" actionListener="#{orcamentoMB.vincularPrestador(prestador)}" title="View Detail">
+                                        <p:commandButton value="Ver"></p:commandButton>
+                                        <f:setPropertyActionListener value="#{prestador}" target="#{consultaPrestadores.prestadorSelecionado}" />
+                                    </p:commandLink>
+                                </h:panelGrid>
+                            </p:panel>
+
+                        </p:dataGrid>
+
+                        <p:dialog header="Prestador Info" widgetVar="DialogGrid" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="400px">
+                            <p:outputPanel id="PrestadorDetail" style="text-align:center;">
+                                <img src="../../resources/imagens/jobers.png" alt=""/><br/>
+                                <p:panelGrid  columns="2" rendered="#{not empty consultaPrestadores.prestadorSelecionado}" columnClasses="label,value" style="font-size: 16px;">
+                                    <f:facet name="header">
+                                    </f:facet>
+
+                                    <h:outputText value="Nome" />
+                                    <h:outputText value="#{consultaPrestadores.prestadorSelecionado.nome}" />
+
+                                    <h:outputText value="Categoria" />
+                                    <h:outputText value="#{consultaPrestadores.prestadorSelecionado.categoria.nome}" />
+
+                                    <h:outputText value="Descrição" />
+                                    <h:outputText value="#{consultaPrestadores.prestadorSelecionado.descricao}" />
+                                </p:panelGrid><br/>
+                                <p:commandButton value="Solicitar Orçamento" 
+                                                 update=":formGrid"
+                                                 oncomplete="PF('dialogOrcamento').show()"
+                                                 style="width: 100%; background: #019487; color: white;"/><br/>
+                            </p:outputPanel>
+                        </p:dialog>
+                    </h:form>
+                </div>
+
+                <p:dialog id="dialogOrcamento" header="Solicitação de orçamento" widgetVar="dialogOrcamento" modal="true" height="300" width="450">
+                    <h:form id="formOrcamento">
+                        <div >
+                            <p:panelGrid columns="1">
+                                <p:column>
+                                    <h:panelGrid columns="1">  
+                                        <h:outputText value="Descrição sobre o serviço:" />                                     
+                                        <p:inputTextarea value="#{orcamentoMB.orcamento.descricao}" requiredMessage="Campo Vazio" required = "true" rows="5" cols="52" counter="display" maxlength="250" counterTemplate="{0} characters remaining." autoResize="false" />
+                                        <h:outputText id="display" />
+                                    </h:panelGrid>  
+                                </p:column>
+                                <div align="center">
+                                    <p:column>
+                                        <h:panelGrid columns="2">
+                                            <p:column>
+                                                <h:panelGrid columns="1">
+                                                    <p:outputLabel for="mask1" value="Data da execução:" />
+                                                    <p:calendar id="mask1" value="#{orcamentoMB.orcamento.dataExecucao}" pattern="dd-MM-yyyy" mask="true" requiredMessage="Data vazia" required = "true"/>
+                                                </h:panelGrid>
+                                            </p:column>
+                                            <p:column>
+                                                <h:panelGrid columns="1">
+                                                    <p:outputLabel for="mask2" value="Data prazo Máximo:" />
+                                                    <p:calendar id="mask2" value="#{orcamentoMB.orcamento.dataExecucao}" pattern="dd-MM-yyyy" mask="true" requiredMessage="Data vazia" required = "true"/>
+                                                </h:panelGrid>
+                                            </p:column>
+                                        </h:panelGrid>  
+                                    </p:column>
+                                </div>
+                            </p:panelGrid><br/><br/>
+                            <p:column>
+                                <p:commandButton value="Enviar" 
+                                                 actionListener="#{orcamentoMB.inserir()}"
+                                                 oncomplete="handleComplete(xhr, status, args)"
+                                                 style="width: 100%"/><br/>
+                            </p:column>
+                        </div>
+                    </h:form>
+                </p:dialog>    
+            </ui:define>
+        </ui:composition>
+
+        <script type="text/javascript">
+            function handleComplete(xhr, status, args) {
+                if (!args.validationFailed) {
+                    PF('dialogOrcamento').hide();
+                } else {
+                }
+            }
+        </script>
+    </h:body>
+</html>
+

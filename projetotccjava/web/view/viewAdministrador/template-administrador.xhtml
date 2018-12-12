@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <h:outputStylesheet library="css" name="cssComponentes.css"/>
+        <h:outputStylesheet library="css" name="cssCorpo.css"/>
+        <h:outputStylesheet library="css" name="cssPadrao.css"/>
+    </h:head>    
+    <h:body>       
+        <div id="corpo">
+            <div id="container_topo" align="center">                
+                <ui:insert name="top">
+                    <div id="custom_areaSuperior">
+                        <br></br><br></br><h2 style="color: white; font-family: arial">Interface administrativa</h2><br/><br/>
+                    </div>
+                    <div id="custom_menu">
+                        <h:form>  
+                            <p:growl id="messages"/>
+                            <p:menubar  class="custom_menuType" >
+                                <p:menuitem value=" Tela inicial-Geral     " url="/index.jsf" icon="ui-icon-arrowreturnthick-1-w" />
+                                <p:menuitem value=" Tela inicial-ADM     " url="/view/viewAdministrador/template-administrador.jsf" icon="ui-icon-arrowreturnthick-1-w" />
+
+                                <p:submenu label="  Cadastro de Utilitários     " icon="ui-icon-document">
+                                    <p:menuitem value="   Estado" url="/view/viewAdministrador/utilCadastros/cadastroEstado.jsf"/> 
+                                    <p:menuitem value="   Cidade" url="/view/viewAdministrador/utilCadastros/cadastroCidade.jsf"/>                                   
+                                    <p:menuitem value="   Categoria" url="/view/viewAdministrador/utilCadastros/cadastroCategoria.jsf"/>
+                                </p:submenu>
+
+                                <p:submenu label="  Registros     " icon="ui-icon-folder-open">
+                                    <p:menuitem value="   Prestadores" url="/view/viewAdministrador/utilCadastros/cadastroPrestador.jsf"/> 
+                                    <p:menuitem value="   Consumidores" url="/view/viewAdministrador/utilCadastros/cadastroConsumidor.jsf"/>                                   
+                                    <p:menuitem value="   Orçamentos gerais" url="/view/viewAdministrador/utilControle/controleOrcamento.jsf"/>
+                                </p:submenu>
+
+
+                                <f:facet name="options">
+                                    <h:outputLink value="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">
+                                        <p:commandButton type="button" value="Sair" icon="ui-icon-extlink" style="color: #5A9C8E;  font-weight : bold; "/>
+                                    </h:outputLink>
+                                </f:facet>
+
+                            </p:menubar>
+                        </h:form>
+                    </div>                    
+                </ui:insert>            
+            </div>
+            <div id="container_meio" class="center_content" align="center">
+                <ui:insert name="content"> 
+
+                    <p:commandButton
+                        style="margin: 1% 80% 0% 0%; padding: 02px"
+                        value="Popular base de dados"
+                        icon="ui-icon-circle-arrow-s"
+                        action="#{insertsMB.popularBanco()}"
+                        oncomplete="mensagem()"
+                        />
+
+                    <div align="center">
+                        <img src="../../resources/imagens/imagemFundo.jpg" id="custom_imgWellcome"/>  
+                    </div>
+                </ui:insert>
+            </div>            
+        </div>
+        <div id="container_rodape" >
+            <ui:insert name="bottom"><br></br>
+                <h2 style="font-size: 18px">Desenvolvido por Lucas Dias - IFPR Campus Paranavaí - 2018</h2><br></br>
+            </ui:insert>
+        </div>
+
+        <script>
+            function mensagem() {
+                alert("Base de dados populada para simulação");
+            }
+        </script>
+
+    </h:body>
+</html>

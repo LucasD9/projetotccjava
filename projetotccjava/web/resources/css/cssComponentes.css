@@ -1,0 +1,66 @@
+/*Todo conteudo estiizado de forma particular deve ter o padrão de nomenclatura "custom_nomeDoElemento"*/
+#custom_areaSuperior{
+    position: relative;
+    background-color: #019487;
+    width: auto;
+}
+
+#custom_menu{
+    bottom: 2px;
+    margin-right:auto;
+    margin-left:auto;
+    margin-bottom: 0px;
+    background-color: white;
+}
+
+#botaoCadastrar{
+    position:relative; 
+    width: 90%; 
+    display:block;
+}
+
+#formTabela { 
+    position:relative; 
+    width: 90%; 
+    display:block;
+}
+
+#formCadastro, #formResultado, #carrossel {  
+    background-color: white;
+    padding: 30px;
+    width: 80%;
+}
+
+#custom_imgWellcome{
+    width:50%;
+    /*    float: left;
+        margin-left: 25%;*/
+}
+
+#areaLogin{
+    float: right;
+    margin: -3% 5px;
+}
+
+#logo{
+    width:15%;
+}
+
+.center_content {
+    position: relative;
+    background-color: #dddddd;
+    padding: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

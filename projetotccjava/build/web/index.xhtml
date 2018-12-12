@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <h:outputStylesheet library="css" name="cssComponentes.css"/>
+        <h:outputStylesheet library="css" name="cssCorpo.css"/>
+        <h:outputStylesheet library="css" name="cssPadrao.css"/>
+    </h:head>    
+    <h:body style="background-color: #019487;">
+
+        <div align="center" style="background-color: white; border-radius: 15px; border-style: solid; padding: 30px; width: 300px; margin: auto; margin-top: 10%;">
+            <h:form>
+                <p:link outcome="/view/viewConsumidor/main-consumidor.jsf" value="Cosumidor"/>
+            </h:form>         
+        </div><br/>
+
+        <div align="center" style="background-color: white; border-radius: 15px; border-style: solid; padding: 30px; width: 300px; margin: auto; ">
+            <h:form>
+                <p:link outcome="view/viewPrestador/main-prestador.jsf"  value="Prestador"/>
+            </h:form>           
+        </div><br/>
+
+        <div align="center" style="background-color: white; border-radius: 15px; border-style: solid; padding: 30px; width: 300px; margin: auto; ">
+            <h:form>
+                <p:link outcome="/view/viewAdministrador/template-administrador" value="Administrador"/>
+            </h:form>           
+        </div>
+    </h:body>
+</html>
